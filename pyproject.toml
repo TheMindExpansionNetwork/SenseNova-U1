@@ -99,3 +99,6 @@ explicit = true
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+extend-exclude = [
+    "src/sensenova_u1/models/neo_unify",
+]

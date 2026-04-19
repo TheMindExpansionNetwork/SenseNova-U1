@@ -29,7 +29,6 @@ from typing import Iterator, List, Tuple
 
 import torch
 
-
 DEFAULT_IMAGE_PATCH_SIZE = 32
 
 
@@ -116,10 +115,7 @@ class InferenceProfiler:
         total_time = sum(s for (_w, _h, _b, s) in self.gen_records)
         avg_per_image = total_time / total_images
 
-        total_tokens = sum(
-            (w // self.patch_size) * (h // self.patch_size) * b
-            for (w, h, b, _s) in self.gen_records
-        )
+        total_tokens = sum((w // self.patch_size) * (h // self.patch_size) * b for (w, h, b, _s) in self.gen_records)
         avg_tokens = total_tokens / total_images
         tokens_per_sec = total_tokens / total_time
 
@@ -138,8 +134,5 @@ class InferenceProfiler:
             print("  per-call breakdown  :")
             for idx, (w, h, b, s) in enumerate(self.gen_records):
                 tokens = (w // self.patch_size) * (h // self.patch_size) * b
-                print(
-                    f"    [{idx + 1:>3}] {w}x{h} x{b}  "
-                    f"{s:7.3f} s  ({tokens:>6d} tok, {tokens / s:8.2f} tok/s)"
-                )
+                print(f"    [{idx + 1:>3}] {w}x{h} x{b}  {s:7.3f} s  ({tokens:>6d} tok, {tokens / s:8.2f} tok/s)")
         print("=" * 64)

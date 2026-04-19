@@ -12,8 +12,10 @@ from .models.neo_unify import (
     effective_attn_backend,
     get_attn_backend,
     has_flash_attn,
-    register as _register,
     set_attn_backend,
+)
+from .models.neo_unify import (
+    register as _register,
 )
 
 try:

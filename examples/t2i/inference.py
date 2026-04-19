@@ -15,7 +15,6 @@ import sensenova_u1
 from sensenova_u1 import check_checkpoint_compatibility
 from sensenova_u1.utils import DEFAULT_IMAGE_PATCH_SIZE, InferenceProfiler
 
-
 NORM_MEAN = (0.5, 0.5, 0.5)
 NORM_STD = (0.5, 0.5, 0.5)
 
@@ -29,6 +28,7 @@ def _set_seed(seed: int) -> None:
     torch.manual_seed(seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(seed)
+
 
 SUPPORTED_RESOLUTIONS: dict[str, tuple[int, int]] = {
     "1:1": (2048, 2048),
@@ -88,11 +88,7 @@ class SenseNovaU1T2I:
         config = AutoConfig.from_pretrained(model_path)
         check_checkpoint_compatibility(config)
         self.tokenizer = AutoTokenizer.from_pretrained(model_path)
-        self.model = (
-            AutoModel.from_pretrained(model_path, config=config, torch_dtype=dtype)
-            .to(device)
-            .eval()
-        )
+        self.model = AutoModel.from_pretrained(model_path, config=config, torch_dtype=dtype).to(device).eval()
 
     @torch.inference_mode()
     def generate(
@@ -145,9 +141,7 @@ def _save_images(
 
 
 def parse_args() -> argparse.Namespace:
-    p = argparse.ArgumentParser(
-        description="T2I inference for SenseNova-U1."
-    )
+    p = argparse.ArgumentParser(description="T2I inference for SenseNova-U1.")
     p.add_argument(
         "--model_path",
         required=True,
@@ -271,6 +265,7 @@ def main() -> None:
     try:
         from tqdm import tqdm
     except ImportError:
+
         def tqdm(x, **_kw):  # type: ignore[no-redef]
             return x
 
