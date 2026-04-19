@@ -49,3 +49,4 @@ checkpoints/
 outputs/
 wandb/
 logs/
+output.png

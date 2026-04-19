@@ -29,11 +29,11 @@ _REGISTERED = False
 
 
 def register() -> None:
-    """Idempotently register NEO-Unify types with ``transformers.Auto*``.
+    """Register NEO-Unify types with ``transformers.Auto*``.
 
     After calling this (or simply ``import sensenova_u1``), users can load a
     SenseNova-U1 checkpoint via plain ``AutoConfig.from_pretrained`` /
-    ``AutoModel.from_pretrained`` — no ``trust_remote_code=True`` required.
+    ``AutoModel.from_pretrained``.
     """
     global _REGISTERED
     if _REGISTERED:

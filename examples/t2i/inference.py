@@ -96,6 +96,7 @@ class SenseNovaU1T2I:
         prompt: str,
         image_size: tuple[int, int] = (DEFAULT_WIDTH, DEFAULT_HEIGHT),
         cfg_scale: float = 4.0,
+        cfg_norm: str = "none",
         timestep_shift: float = 3.0,
         cfg_interval: tuple[float, float] = (0.0, 1.0),
         num_steps: int = 50,
@@ -106,6 +107,7 @@ class SenseNovaU1T2I:
             prompt,
             image_size=image_size,
             cfg_scale=cfg_scale,
+            cfg_norm=cfg_norm,
             timestep_shift=timestep_shift,
             cfg_interval=cfg_interval,
             num_steps=num_steps,
@@ -176,6 +178,16 @@ def parse_args() -> argparse.Namespace:
         help=f"Output image height (default: {DEFAULT_HEIGHT}). See --width for supported values.",
     )
     p.add_argument("--cfg_scale", type=float, default=4.0)
+    p.add_argument(
+        "--cfg_norm",
+        default="none",
+        choices=["none", "global", "channel", "cfg_zero_star"],
+        help=(
+            "Classifier-free guidance rescaling mode. 'none' (default) is classical CFG;"
+            "'global'/'channel' rescale the CFG output back to the conditional norm (globally / per-channel);"
+            "'cfg_zero_star' is CFG-Zero*-style guidance."
+        ),
+    )
     p.add_argument("--timestep_shift", type=float, default=3.0)
     p.add_argument(
         "--cfg_interval",
@@ -248,6 +260,7 @@ def main() -> None:
                 args.prompt,
                 image_size=(args.width, args.height),
                 cfg_scale=args.cfg_scale,
+                cfg_norm=args.cfg_norm,
                 timestep_shift=args.timestep_shift,
                 cfg_interval=cfg_interval,
                 num_steps=args.num_steps,
@@ -278,6 +291,7 @@ def main() -> None:
                 sample["prompt"],
                 image_size=(w, h),
                 cfg_scale=args.cfg_scale,
+                cfg_norm=args.cfg_norm,
                 timestep_shift=args.timestep_shift,
                 cfg_interval=cfg_interval,
                 num_steps=args.num_steps,

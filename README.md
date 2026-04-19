@@ -87,16 +87,32 @@ cd SenseNova-U1
 ### 2. Install dependencies with uv
 
 ```bash
-# Pick the CUDA extra that matches your system, e.g. cu121 / cu124 / cu126 / cu128
-uv sync --extra cu124
-# Optional: install flash-attn for faster generation (SDPA fallback is used otherwise)
-# uv sync --extra cu124 --extra flash
+uv sync
 source .venv/bin/activate
 ```
 
-The `sensenova_u1` package is installed in editable mode, so the canonical
-NEO-Unify model implementation (`src/sensenova_u1/models/neo_unify/`) is
-automatically registered with `transformers.Auto*` at import time.
+The `sensenova_u1` package is installed in
+editable mode, so the canonical [NEO-Unify model](src/sensenova_u1/models/neo_unify/) is automatically registered with `transformers.Auto*` at import time.
+
+> **Older NVIDIA drivers:** the default index is CUDA 12.8. If your driver
+> does not support cu128, change `[tool.uv.sources]` / `[[tool.uv.index]]`
+> in `pyproject.toml` to e.g. `https://download.pytorch.org/whl/cu126` (and
+> adjust the pinned torch / torchvision versions accordingly) before
+> running `uv sync`.
+
+#### Optional: flash-attn
+
+`flash-attn` is declared as an optional extra;
+without it the model transparently falls back to torch SDPA;
+once flash-attn is importable the runtime picks it automatically (`--attn_backend auto`).
+
+```bash
+# (a) Build from source via PyPI
+uv sync --extra flash
+
+# (b) Install a prebuilt CUDA wheel matching your torch + Python
+uv pip install /path/to/flash_attn-2.8.3+cu12torch28cxx11abitrue-cp311-cp311-*.whl
+```
 
 #### Visual Understanding
 
@@ -127,18 +143,29 @@ The script accepts arbitrary `--width` / `--height` and only emits a warning whe
 python examples/t2i/inference.py \
   --model_path OpenSenseNova/SenseNova-U1-Mini \
   --prompt "一个咖啡店门口有一个黑板，上面写着日日新咖啡，2元一杯，旁边有个霓虹灯，写着商汤科技，旁边有个海报，海报上面是一只小浣熊，海报下方写着SenseNova newbee。" \
-  --width 2048 --height 2048 \
-  --output out.png \
+  --width 2048 \
+  --height 2048 \
+  --cfg_scale 4.0 \
+  --cfg_norm none \
+  --timestep_shift 3.0 \
+  --num_steps 50 \
+  --output output.png \
   --profile
 ```
 
-For batched inference, pass a JSONL file via `--jsonl` (see [`examples/t2i/data/samples.jsonl`](./examples/t2i/data/samples.jsonl)). Each line is `{"prompt": ...}` and optionally `{"width": W, "height": H}`:
+Run `python examples/t2i/inference.py --help` for the full flag list.
+
+For batched inference, pass a JSONL file via `--jsonl` (see [`examples/t2i/data/samples.jsonl`](./examples/t2i/data/samples.jsonl)). Each line is `{"prompt": ...}` and optionally `{"width": W, "height": H, "seed": S}`:
 
 ```bash
 python examples/t2i/inference.py \
     --model_path OpenSenseNova/SenseNova-U1-Mini \
     --jsonl examples/t2i/data/samples.jsonl \
     --output_dir outputs/ \
+    --cfg_scale 4.0 \
+    --cfg_norm none \
+    --timestep_shift 3.0 \
+    --num_steps 50 \
     --profile
 ```
 
