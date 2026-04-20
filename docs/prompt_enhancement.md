@@ -41,7 +41,7 @@ switch backends without code changes.
 | `U1_ENHANCE_MODEL`    | `gemini-3.1-pro`   | Model name string sent in the request body |
 | `U1_ENHANCE_API_KEY`  | _unset_            | Bearer token (required) |
 
-Then just add `--enhance` to your `examples/t2i/inference.py` command line.
+First, create a `.env` file and write the four parameters into the file. Then just add `--enhance` to your `examples/t2i/inference.py` command line.
 Add `--print_enhance` to echo the original + enhanced prompt for
 debugging.
 
@@ -49,10 +49,12 @@ debugging.
 
 | Model | Backend | Endpoint template | Notes |
 | :---- | :------ | :---------------- | :---- |
-| **Gemini 3.1 Pro** (default) | `chat_completions` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | Best overall infographic quality in our internal bench. Excellent at structured / hierarchical content. |
+| **Gemini 3.1 Pro** (Default) | `chat_completions` | `https://generativelanguage.googleapis.com/v1beta/openai/chat/completions` | Best overall infographic quality in our internal bench. Excellent at structured / hierarchical content. |
 | SenseNova Agentic model | `chat_completions` | _(will be released soon)_ | Comparable to Gemini 3.1 Pro on zh content, cheaper per-token, preferred for production. |
 | Anthropic Claude (Sonnet/Opus) | `anthropic`        | `https://api.anthropic.com/v1/messages` | Strong typography discipline, slightly less "information-dense" out of the box. |
 | Kimi 2.5                      | `chat_completions` | `https://api.moonshot.cn/v1/chat/completions` | Good Chinese enhancements, weaker for English-dense infographics in our runs. |
+| Gemini 3.1 Flash-Lite (Third-party service) | `chat_completions` | `https://aigateway.edgecloudapp.com/v1/f194fd69361cd590f1fa136c9c90eca1/senseai` | The overall quality of the information chart is high and its generation speed is fast. |
+| Kimi 2.5/Qwen3.6-Plus (Third-party service) | `chat_completions` | `https://coding.dashscope.aliyuncs.com/v1/chat/completions` | Good Chinese enhancements. Different models can be flexibly selected. |
 
 ## 4. Qualitative comparison (TODO – fill after release benchmarks)
 
@@ -60,8 +62,8 @@ debugging.
 > handful of base prompts, rendered at `2048×2048` with identical sampler
 > knobs. PRs with new backends welcome.
 
-| Base prompt | No enhance | Gemini 3.1 Pro | Internal Agentic | Claude | Kimi 2.5 |
+| Base prompt | No enhance | Gemini 3.1 Pro | Internal Agentic | Qwen3.6-Plus | Kimi 2.5 |
 | :---------- | :--------- | :------------- | :--------------- | :----- | :------- |
-| _(infographic topic 1)_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
-| _(infographic topic 2)_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
-| _(infographic topic 3)_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ | _TBD_ |
+| 生成一副西红柿炒鸡蛋的教程图 | <img src="assets/showcases/prompt_enhancement/case1.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case1_gemini_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case1_internal_agentic_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case1_qwen_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case1_kimi_enhanced.png" width="200"> |
+| 生成一张介绍乒乓球比赛规则的图片 | <img src="assets/showcases/prompt_enhancement/case2.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case2_gemini_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case2_internal_agentic_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case2_qwen_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case2_kimi_enhanced.png" width="200"> |
+| Popularizing the importance of three meals a day | <img src="assets/showcases/prompt_enhancement/case3.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case3_gemini_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case3_internal_agentic_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case3_qwen_enhanced.png" width="200"> | <img src="assets/showcases/prompt_enhancement/case3_kimi_enhanced.png" width="200"> |
