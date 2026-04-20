@@ -41,7 +41,7 @@ switch backends without code changes.
 | `U1_ENHANCE_MODEL`    | `gemini-3.1-pro`   | Model name string sent in the request body |
 | `U1_ENHANCE_API_KEY`  | _unset_            | Bearer token (required) |
 
-First, create a `.env` file and write the four parameters into the file. Then just add `--enhance` to your `examples/t2i/inference.py` command line.
+First, create a `.env` file and populate it with the four required parameters. Then just add `--enhance` to your `examples/t2i/inference.py` command line.
 Add `--print_enhance` to echo the original + enhanced prompt for
 debugging.
 
