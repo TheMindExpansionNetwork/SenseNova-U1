@@ -270,9 +270,11 @@ def _build_rewriter(args: argparse.Namespace):
     if not args.rewrite:
         return None, None
     import asyncio
+    from dotenv import load_dotenv
 
     from sensenova_u1.prompt_rewrite import PromptRewriter
 
+    load_dotenv()
     rewriter = PromptRewriter.from_env(style="infographic")
     loop = asyncio.new_event_loop()
     return rewriter, loop
