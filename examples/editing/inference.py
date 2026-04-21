@@ -97,7 +97,7 @@ def _maybe_warn_low_resolution_inputs(
     print(
         "[editing][warn] For best results, manually pre-resize each input so "
         "that width*height ≈ 2048*2048 (aspect ratio preserved) before running "
-        "inference. See scripts/resize_images_2048.py for a reference script."
+        "inference. See examples/editing/resize_inputs.py for a reference script."
     )
 
 

@@ -64,6 +64,11 @@ additional editing samples.
 
 TBA
 
+## 📊 Benchmarks
+
+> TODO: Add Benchmark Chart
+
+Evaluation scripts and benchmark reproduction guides will be added in `evaluation/`.
 
 
 ## 🛠️ Quick Start
@@ -220,6 +225,19 @@ Refer to [`docs/prompt_enhancement.md`](./docs/prompt_enhancement.md) for more d
 
 Output resolution is derived via `smart_resize` on the first input image — aspect ratio preserved, total pixels normalized to `--target_pixels` (default `2048 * 2048`). Pass `--width W --height H` (both multiples of 32) to override.
 
+> 💡 **Best practice — pre-resize inputs offline.**
+> For best quality, down-/up-sample each source image **offline**
+> so its total pixels match `--target_pixels` (aspect ratio preserved) before running inference.
+> A reference helper is provided at [`examples/editing/resize_inputs.py`](./examples/editing/resize_inputs.py):
+>
+> ```bash
+> python examples/editing/resize_inputs.py \
+>   --src examples/editing/data/images \
+>   --dst examples/editing/data/images_2048
+> ```
+>
+> Then point `--image` / the JSONL manifest at the resized folder.
+
 Single edit:
 
 ```bash
@@ -301,12 +319,6 @@ python examples/interleave/inference.py \
 ```
 
 Run `python examples/interleave/inference.py --help` for the full flag list.
-
-
-## 📊 Evaluation
-
-<!-- TODO: link to evaluation guide once available -->
-Evaluation scripts and benchmark reproduction guides will be released in `evaluation/`.
 
 
 ## 🛠️ Development
