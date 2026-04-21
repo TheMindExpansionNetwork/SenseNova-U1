@@ -11,20 +11,19 @@ sample inputs:
 ```
 examples/
 ├── README.md
-├── t2i/                       # text-to-image               (runnable)
-│   ├── inference.py
-│   ├── run.sh
-│   └── data/
-│       └── samples.jsonl
-├── ti2i/                      # image editing               (TBA)
+├── t2i/                       # text-to-image
 │   ├── inference.py
 │   └── data/
 │       └── samples.jsonl
-├── interleave/                # interleaved generation      (TBA)
+├── editing/                   # image editing (it2i)
 │   ├── inference.py
 │   └── data/
 │       └── samples.jsonl
-└── vqa/                       # visual understanding / VQA  (TBA)
+├── interleave/                # interleaved generation
+│   ├── inference.py
+│   └── data/
+│       └── samples.jsonl
+└── vqa/                       # visual understanding / VQA
     ├── inference.py
     └── data/
         └── questions.jsonl
@@ -57,3 +56,43 @@ python examples/t2i/inference.py \
 See [`t2i/data/samples.jsonl`](./t2i/data/samples.jsonl) for a tiny starter
 file. Supported resolution buckets and the full CLI flag list live in the
 top-level [README](../README.md#text-to-image).
+
+## Image Editing (it2i)
+
+Single edit:
+
+```bash
+python examples/editing/inference.py \
+  --model_path OpenSenseNova/SenseNova-U1-Mini \
+  --prompt "Turn the background into a starry night sky." \
+  --image path/to/input.jpg \
+  --output edited.png \
+  --profile
+```
+
+Batched edits from a JSONL file (each line must contain a `prompt` and
+`image` path; `seed` / `type` are optional; `image` can also be a list of
+paths to pass multiple reference images):
+
+```bash
+python examples/editing/inference.py \
+    --model_path OpenSenseNova/SenseNova-U1-Mini \
+    --jsonl examples/editing/data/samples.jsonl \
+    --output_dir outputs/editing/ \
+    --profile
+```
+
+Output resolution is decoupled from the input and has two modes:
+
+- **Auto (default)**: omit `--width / --height` and the output tracks the
+  first input via `smart_resize` — aspect ratio preserved, total pixels **normalized** to `--target_pixels` (default `2048 * 2048`),
+  and the final H / W are snapped to multiples of 32.
+- **Explicit**: pass `--width W --height H` (both multiples of 32, the
+  image-token grid factor). Useful for re-aspecting / resizing during the
+  edit; **2048 × 2048** is a good general-purpose choice and matches the
+  t2i recommendation.
+
+JSONL mode additionally honors per-sample `width` + `height` fields when
+both are present; they override the CLI default for that line.
+
+CFG defaults: `--cfg_scale 4.0` (text guidance), `--img_cfg_scale 1.0` (image CFG **off** by default).
