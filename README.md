@@ -116,9 +116,40 @@ uv pip install /path/to/flash_attn-2.8.3+cu12torch28cxx11abitrue-cp311-cp311-*.w
 
 #### Visual Understanding
 
+[`examples/vqa/inference.py`](./examples/vqa/inference.py) is a minimal visual question answering (VQA) inference script for SenseNova-U1.
+
+**Single image mode:**
+
 ```bash
-TBA
+python examples/vqa/inference.py \
+  --model_path OpenSenseNova/SenseNova-U1-Mini \
+  --image path/to/image.jpg \
+  --question "Please describe this image in detail." \
+  --output answer.txt \
+  --profile
 ```
+
+**Batched inference with JSONL:**
+
+For batched inference, pass a JSONL file via `--jsonl` (see [`examples/vqa/data/questions.jsonl`](./examples/vqa/data/questions.jsonl)). Each line requires `{"image": ..., "question": ...}` and optionally `{"id": ...}`:
+
+```bash
+python examples/vqa/inference.py \
+  --model_path OpenSenseNova/SenseNova-U1-Mini \
+  --jsonl examples/vqa/data/questions.jsonl \
+  --output_dir outputs/ \
+  --max_new_tokens 1024 \
+  --profile
+```
+
+**Generation parameters:**
+
+- `--max_new_tokens` — maximum response length (default: 1024)
+- `--do_sample` — enable sampling (default: greedy decoding)
+- `--temperature` — sampling temperature (default: 0.7, used when `--do_sample`)
+- `--top_p` — nucleus sampling threshold (default: 0.9, used when `--do_sample`)
+
+Run `python examples/vqa/inference.py --help` for the full flag list.
 
 #### Visual Generation
 
