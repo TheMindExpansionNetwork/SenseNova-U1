@@ -104,8 +104,52 @@ We observe competitive end-to-end latency and throughput across understanding, g
 
 > 📖 **Full design, benchmarking protocol, and performance numbers:** see [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
 
+LightLLM and LightX2V offer offer official docker image for deployment:
+`lightx2v/lightllm_lightx2v:20260407`.
 
-TBA: run with lightx2v
+```bash
+docker pull lightx2v/lightllm_lightx2v:20260407
+docker run -it --gpus all -p 8000:8000 -v /dev/shm:/dev/shm -v your_local_path:/data/ lightx2v/lightllm_lightx2v:20260407 /bin/bash
+```
+
+### 1. Clone dependencies in container
+
+```bash
+git clone https://github.com/ModelTC/LightX2V.git
+git clone https://github.com/ModelTC/LightLLM.git
+cd LightLLM && git checkout neo_plus_clean
+```
+
+### 2. Start API service (2-GPU example)
+
+In this setup, understanding runs with `tp=2`, and generation uses `cfg=2`
+parallelism via the LightX2V config file:
+
+```bash
+PYTHONPATH=/workspace/LightX2V/ \
+python -m lightllm.server.api_server \
+  --model_dir $MODEL_DIR \
+  --enable_multimodal_x2i \
+  --x2v_gen_model_config /workspace/LightX2V/configs/neopp/neopp_dense_parallel_cfg.json \
+  --graph_max_batch_size 128 \
+  --host 0.0.0.0 \
+  --port 8000 \
+  --max_req_total_len 65536 \
+  --mem_fraction 0.75 \
+  --x2i_server_used_gpus 2 \
+  --tp 2
+```
+
+### 3. OpenAI-Compatible API
+
+```bash
+python examples/test_api.py \
+  --mode t2i \
+  --prompt "A cozy coffee shop storefront with infographic style."
+```
+
+For full deployment details and more test examples, see
+[`docs/deployment.md`](./docs/deployment.md).
 
 
 ### Run with transformers
