@@ -27,7 +27,6 @@ examples/
 │       └── images/
 └── vqa/                       # visual understanding / VQA
     ├── inference.py
-    ├── run.sh
     └── data/
         ├── questions.jsonl
         └── images/
