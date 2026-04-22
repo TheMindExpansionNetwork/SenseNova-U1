@@ -53,7 +53,7 @@
 
 | Model | Params | HF Weights |
 | :---- | :------- | :--------- |
-| SenseNova-U1-Mini-Beta | 8B + 8B | [🤗 SenseNova-U1-Mini-Beta](https://huggingface.co/sensenova/SenseNova-U1-Mini-Beta) |
+| SenseNova-U1-Mini-Beta | 8B + 8B | 🤗 [SenseNova-U1-Mini-Beta](https://huggingface.co/sensenova/SenseNova-U1-Mini-Beta) |
 
 ## 🎨 Showcases
 
