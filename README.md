@@ -166,12 +166,11 @@ We observe competitive end-to-end latency and throughput across understanding, g
 > 📖 **Full design, benchmarking protocol, and performance numbers:** see [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
 
 
-## 🖊️ Citation
+<!-- ## 🖊️ Citation
 
-<!-- TODO: fill in once the paper is released -->
 ```bibtex
 
-```
+``` -->
 
 ## ⚖️ License
 
