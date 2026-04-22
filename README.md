@@ -261,7 +261,7 @@ python examples/vqa/inference.py --model_path SenseNova/SenseNova-U1-Mini-Beta -
 <summary>🖼️ Text-to-Image</summary>
 
 ```bash
-python examples/t2i/inference.py --model_path SenseNova/SenseNova-U1-Mini-Beta --prompt "一个咖啡店门口有一个黑板，上面写着日日新咖啡，2元一杯，旁边有个霓虹灯，写着商汤科技，旁边有个海报，海报上面是一只小浣熊，海报下方写着SenseNova newbee。" --width 2048 --height 2048 --cfg_scale 4.0 --cfg_norm none --timestep_shift 3.0 --num_steps 50 --output output.png --profile
+python examples/t2i/inference.py --model_path SenseNova/SenseNova-U1-Mini-Beta --prompt "这张信息图的标题是“SenseNova-U1”，采用现代极简科技矩阵风格。整体布局为水平三列网格结构，背景是带有极浅银灰色细密点阵的哑光纯白高级纸张纹理，画面长宽比为16:9。\n\n排版采用严谨的视觉层级：主标题使用粗体无衬线黑体字，正文使用清晰的现代等宽字体。配色方案极其克制，以纯白色为底，深炭黑为主视觉文字和边框，浅石板灰用于背景色块和次要信息区分，图标采用精致的银灰色线框绘制。\n\n在画面正上方居中位置，使用醒目的深炭黑粗体字排布着大标题“SenseNova-U1”。标题正下方是浅石板灰色的等宽字体副标题“新一代端到端统一多模态大模型家族”。\n\n画面主体分为左、中、右三个相等的垂直信息区块，区块之间通过充足的负空间进行物理隔离。\n\n左侧区块的主题是概述。顶部有一个银灰色线框绘制的、由放大镜和齿轮交织的图标，旁边是粗体小标题“Overview”。该区块内从上到下垂直排列着三个要点：第一个要点旁边是一个代表文档与照片重叠的极简图标，紧跟着文字“多模态模型家族，统一文本/图像理解和生成”。向下是由两个相连的同心圆组成的架构图标，配有文字“基于NEO-Unify架构（端到端统一理解和生成）”。最下方是一个带有斜线划掉的眼睛和漏斗形状的图标，明确指示文本“无需视觉编码器(VE)和变分自编码器(VAE)”。\n\n中间区块展示模型矩阵。顶部是一个包含两个分支节点的树状网络图标，旁边是粗体小标题“两个模型版本”。区块内分为上下两个包裹在浅石板灰色极细边框内的卡片。上方的卡片内画着一个代表高密度的实心几何立方体图标，大字标注“SenseNova-U1-Mini”，下方是等宽字体说明“18B参数密集模型”。下方的卡片内画着一个带有闪电符号的网状发光大脑图标，大字标注“SenseNova-U1-Flash”，下方是等宽字体说明“38B参数，3B激活的混合专家(MoE)模型”。在这两个独立卡片的正下方，左侧放置一个笑脸轮廓图标搭配文字“将在HF等平台公开”，右侧放置一个带有折角的书面报告图标搭配文字“将发布技术报告”。\n\n右侧区块呈现核心优势。顶部是一个代表巅峰的上升阶梯折线图图标，旁边是粗体小标题“Highlights”。该区块内部垂直分布着四个带有浅石板灰底色的长方形色块，每个色块内部左侧对应一个具体的图标，右侧为文字。第一个色块内是一个无缝相连的莫比乌斯环图标，配文“原生统一架构，无VE和VAE”。第二个色块内是一个顶端带有星星的奖杯图标，配文“单一统一模型在理解和生成任务上均达到SOTA性能”。第三个色块内是代表文本行与拍立得照片交替穿插的图标，配文“强大的原生交错推理能力（模型原生生成图像进行推理）”。最后一个色块内是一个被切分出一小块的硬币与详细饼状图结合的图标，配文“能生成复杂信息图表，成本仅为商业模型的1/10”。" --width 2048 --height 2048 --cfg_scale 4.0 --cfg_norm none --timestep_shift 3.0 --num_steps 50 --output output.png --profile
 ```
 
 </details>
@@ -295,62 +295,20 @@ python examples/interleave/inference.py --model_path SenseNova/SenseNova-U1-Mini
 
 ### ⚡ Run with LightLLM + LightX2V
 
-To efficiently serve a unified model that jointly handles understanding and generation, we co-design a dedicated inference stack on top of **[LightLLM](https://github.com/ModelTC/lightllm)** and **[LightX2V](https://github.com/ModelTC/lightx2v)**, featuring:
+For production serving, we co-design a dedicated inference stack on top of **[LightLLM](https://github.com/ModelTC/lightllm)** (understanding) and **[LightX2V](https://github.com/ModelTC/lightx2v)** (generation). The two engines are disaggregated so that each path can use its own parallelism and resource budget, with a low-overhead transfer channel in between.
 
-- **Disaggregated serving & transfer design** — understanding and generation workloads are served on separate engines with a low-overhead KV / feature transfer channel.
-- **Understanding-side optimizations** — tailored kernels, scheduling, and KV management for the VLM path.
-- **Generation-side optimizations** — Kernel fusion, CFG parallelism, Ulysses parallelism, and improved memory management for KV cache.
+On a single node with `TP2 + CFG2`, this stack delivers roughly **~0.15 s/step** and **~9 s end-to-end** for a **2048×2048** image on H100 / H200, with a ~**2.4–3.2×** prefill speedup from our FA3-based hybrid-mask attention over the Triton baseline. Full per-GPU performance are reported in [`docs/inference_infra.md`](./docs/inference_infra.md).
 
-We observe competitive end-to-end latency and throughput across understanding, generation, and interleaved workloads.
-
-> 📖 **Full design, benchmarking protocol, and performance numbers:** see [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
-
-LightLLM and LightX2V offer offer official docker image for deployment:
-`lightx2v/lightllm_lightx2v:20260407`.
+An official docker image is provided for one-command deployment:
 
 ```bash
 docker pull lightx2v/lightllm_lightx2v:20260407
-docker run -it --gpus all -p 8000:8000 -v /dev/shm:/dev/shm -v your_local_path:/data/ lightx2v/lightllm_lightx2v:20260407 /bin/bash
 ```
 
-### 1. Clone dependencies in container
+> ⚙️ **Deployment guide (Docker, launch flags, modes, quantization, API test):** see [`docs/deployment.md`](./docs/deployment.md).
+>
+> 📖 **Full design and performance profiling:** see [`docs/inference_infra.md`](./docs/inference_infra.md).
 
-```bash
-git clone https://github.com/ModelTC/LightX2V.git
-git clone https://github.com/ModelTC/LightLLM.git
-cd LightLLM && git checkout neo_plus_clean
-```
-
-### 2. Start API service (2-GPU example)
-
-In this setup, understanding runs with `tp=2`, and generation uses `cfg=2`
-parallelism via the LightX2V config file:
-
-```bash
-PYTHONPATH=/workspace/LightX2V/ \
-python -m lightllm.server.api_server \
-  --model_dir $MODEL_DIR \
-  --enable_multimodal_x2i \
-  --x2v_gen_model_config /workspace/LightX2V/configs/neopp/neopp_dense_parallel_cfg.json \
-  --graph_max_batch_size 128 \
-  --host 0.0.0.0 \
-  --port 8000 \
-  --max_req_total_len 65536 \
-  --mem_fraction 0.75 \
-  --x2i_server_used_gpus 2 \
-  --tp 2
-```
-
-### 3. OpenAI-Compatible API
-
-```bash
-python examples/test_api.py \
-  --mode t2i \
-  --prompt "A cozy coffee shop storefront with infographic style."
-```
-
-For full deployment details and more test examples, see
-[`docs/deployment.md`](./docs/deployment.md).
 <!-- ## 🖊️ Citation
 
 ```bibtex
