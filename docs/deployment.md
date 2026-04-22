@@ -1,9 +1,5 @@
 # LightLLM + LightX2V Deployment
 
-<p align="center">
-  <a href="../README.md">← Back to main README</a>
-</p>
-
 This guide provides a practical deployment flow for serving SenseNova-U1 with
 LightLLM + LightX2V using the Docker image
 `lightx2v/lightllm_lightx2v:20260407`.
@@ -141,3 +137,17 @@ for each path independently:
 Notes:
 - `--quant_type fp8w8a8` controls quantization on the understanding path.
 - Generation-side precision is controlled by `--x2v_gen_model_config`.
+
+## 6) OpenAI-compatible API
+
+Once the API server is up, you can send requests through the OpenAI-compatible
+endpoint exposed by LightLLM. A minimal text-to-image example:
+
+```bash
+python examples/serving/client.py \
+  --mode t2i \
+  --prompt "A cozy coffee shop storefront with infographic style."
+```
+
+See [`examples/serving/client.py`](../examples/serving/client.py) for more modes
+(VQA, editing, interleaved) and request formats.

@@ -295,62 +295,19 @@ python examples/interleave/inference.py --model_path SenseNova/SenseNova-U1-Mini
 
 ### ⚡ Run with LightLLM + LightX2V
 
-To efficiently serve a unified model that jointly handles understanding and generation, we co-design a dedicated inference stack on top of **[LightLLM](https://github.com/ModelTC/lightllm)** and **[LightX2V](https://github.com/ModelTC/lightx2v)**, featuring:
+For production serving, we co-design a dedicated inference stack on top of **[LightLLM](https://github.com/ModelTC/lightllm)** (understanding) and **[LightX2V](https://github.com/ModelTC/lightx2v)** (generation). The two engines are disaggregated so that each path can use its own parallelism and resource budget, with a low-overhead transfer channel in between.
 
-- **Disaggregated serving & transfer design** — understanding and generation workloads are served on separate engines with a low-overhead KV / feature transfer channel.
-- **Understanding-side optimizations** — tailored kernels, scheduling, and KV management for the VLM path.
-- **Generation-side optimizations** — Kernel fusion, CFG parallelism, Ulysses parallelism, and improved memory management for KV cache.
+On a single node with `TP2 + CFG2`, this stack delivers roughly **~0.15 s/step** and **~9 s end-to-end** for a **2048×2048** image on H100 / H200, with a ~**2.4–3.2×** prefill speedup from our FA3-based hybrid-mask attention over the Triton baseline. Full per-GPU numbers are reported in [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
 
-We observe competitive end-to-end latency and throughput across understanding, generation, and interleaved workloads.
-
-> 📖 **Full design, benchmarking protocol, and performance numbers:** see [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
-
-LightLLM and LightX2V offer offer official docker image for deployment:
-`lightx2v/lightllm_lightx2v:20260407`.
+An official docker image is provided for one-command deployment:
 
 ```bash
 docker pull lightx2v/lightllm_lightx2v:20260407
-docker run -it --gpus all -p 8000:8000 -v /dev/shm:/dev/shm -v your_local_path:/data/ lightx2v/lightllm_lightx2v:20260407 /bin/bash
 ```
 
-### 1. Clone dependencies in container
-
-```bash
-git clone https://github.com/ModelTC/LightX2V.git
-git clone https://github.com/ModelTC/LightLLM.git
-cd LightLLM && git checkout neo_plus_clean
-```
-
-### 2. Start API service (2-GPU example)
-
-In this setup, understanding runs with `tp=2`, and generation uses `cfg=2`
-parallelism via the LightX2V config file:
-
-```bash
-PYTHONPATH=/workspace/LightX2V/ \
-python -m lightllm.server.api_server \
-  --model_dir $MODEL_DIR \
-  --enable_multimodal_x2i \
-  --x2v_gen_model_config /workspace/LightX2V/configs/neopp/neopp_dense_parallel_cfg.json \
-  --graph_max_batch_size 128 \
-  --host 0.0.0.0 \
-  --port 8000 \
-  --max_req_total_len 65536 \
-  --mem_fraction 0.75 \
-  --x2i_server_used_gpus 2 \
-  --tp 2
-```
-
-### 3. OpenAI-Compatible API
-
-```bash
-python examples/test_api.py \
-  --mode t2i \
-  --prompt "A cozy coffee shop storefront with infographic style."
-```
-
-For full deployment details and more test examples, see
-[`docs/deployment.md`](./docs/deployment.md).
+> ⚙️ **Deployment guide (Docker, launch flags, modes, quantization, API test):** see [`docs/deployment.md`](./docs/deployment.md).
+>
+> 📖 **Full design, benchmarking protocol, and performance numbers:** see [`docs/inference_infrastructure.md`](./docs/inference_infrastructure.md).
 <!-- ## 🖊️ Citation
 
 ```bibtex

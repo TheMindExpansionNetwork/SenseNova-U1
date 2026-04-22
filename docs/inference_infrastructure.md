@@ -1,9 +1,5 @@
 # Inference Infrastructure
 
-<p align="center">
-  <a href="../README.md">← Back to main README</a>
-</p>
-
 This document describes the inference infrastructure behind **SenseNova-U1**, built on top of **[LightLLM](https://github.com/ModelTC/lightllm)** and **[LightX2V](https://github.com/ModelTC/lightx2v)**.
 
 ## Overview
@@ -81,11 +77,11 @@ see [`deployment.md`](./deployment.md).
 The table below is the benchmark template for **2048x2048** image generation.
 Fill in measured numbers for each machine and deployment profile.
 
-| Machine Type | Deployment Config | Per-step Latency (s/step) | End-to-end Latency (s) |
+| GPU | Deployment Config | Per-step Latency (s/step) | End-to-end Latency (s) |
 | ---------- | ----------------- | --------------------------: | ---------------------: |
 | H100 | TP2+CFG2 / colocate | 0.158 | 9.23 |
 | H200 | TP2+CFG2 / colocate | 0.152 | 9.54 |
 | 5090 | TP2+CFG2 / separate | 0.415 | 23.04 |
 | L40S | TP2+CFG2 / separate | 0.443 | 25.62 |
 
-In Neo, the KV cache for the generation stage is provided by the understanding module, so T2I (generation) and I2I (editing) have very similar runtime characteristics. For brevity, we report only T2I latency here.
+In NEO-Unify, the KV cache for the generation stage is provided by the understanding module, so T2I (generation) and I2I (editing) have very similar runtime characteristics. For brevity, we report only T2I latency here.
