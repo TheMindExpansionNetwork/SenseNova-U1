@@ -90,9 +90,8 @@ In NEO-Unify, the KV cache for the generation stage is provided by the understan
 ### Cross-Model Speed Comparison
 
 The table below compares the latency of a single diffusion step for
-**2048x2048** image generation with **CFG enabled**. It is intended to show
-step-level generation efficiency across models, rather than end-to-end latency
-under a fully unified serving setup.
+**2048x2048** image generation with **CFG enabled**, it is intended to show
+step-level generation efficiency across models.
 
 | Model | Parameters | Per-step latency (s/step) |
 | ----- | ---------: | -------------------------: |
