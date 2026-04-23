@@ -98,7 +98,7 @@ step-level generation efficiency across models.
 | Qwen-Image-2512 | 20B | 1.478 |
 | Z-Image | 6B | 1.110 |
 | GLM-Image | 16B | 1.394 |
-| ERNIE-Image | 8B | 3.024 |
+| ERNIE-Image | 8B | 1.565 |
 | LongCat-Image | 6B | 0.796 |
 | NEO-Unify | 8B | 0.312 |
 
