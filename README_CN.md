@@ -242,11 +242,12 @@
 <details>
 <summary>🦾 视觉语言动作</summary>
 
-| |
-| :---: |
-| <video src="./docs/assets/showcases/vla/1.mp4" controls width="100%"></video> |
-| <video src="./docs/assets/showcases/vla/2.mp4" controls width="100%"></video> |
-| <video src="./docs/assets/showcases/vla/3.mp4" controls width="100%"></video> |
+| | |
+| :---: | :---: |
+| 案例 1 | [![demo1](./docs/assets/showcases/vla/1.png)](./docs/assets/showcases/vla/1.mp4) |
+| 案例 2 | [![demo2](./docs/assets/showcases/vla/2.png)](./docs/assets/showcases/vla/2.mp4) |
+| 案例 3 | [![demo3](./docs/assets/showcases/vla/3.png)](./docs/assets/showcases/vla/3.mp4) |
+| | |
 
 </details>
 
