@@ -28,7 +28,7 @@ Our work sits within the pre-train–driven Chat era, yet gestures toward the ne
 
 - 🧠 **Native Mixture-of-Transformers**: Modality-agnostic reasoning with high efficiency and minimal conflict !   
 
-- 🔗 **Unified End-to-End Learning**: Modeling directly on pixels + text from the first principles !   
+- 🔗 **Unified End-to-End Learning**: Modeling directly on pixels + text inputs from the first principles !   
 
 
 #### ✨ *What This Unlocks:*
