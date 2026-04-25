@@ -244,9 +244,9 @@ Note that the **SFT models** are trained in four stages: (1) *Understanding Warm
 
 | | |
 | :---: | :---: |
-| Case 1 | [![demo1](./docs/assets/showcases/vla/1.png)](./docs/assets/showcases/vla/1.mp4) |
-| Case 2 | [![demo2](./docs/assets/showcases/vla/2.png)](./docs/assets/showcases/vla/2.mp4) |
-| Case 3 | [![demo3](./docs/assets/showcases/vla/3.png)](./docs/assets/showcases/vla/3.mp4) |
+| Case 1 | [![demo1](./docs/assets/showcases/vla/1.png)](./docs/assets/showcases/vla/1.mp4?raw=true) |
+| Case 2 | [![demo2](./docs/assets/showcases/vla/2.png)](./docs/assets/showcases/vla/2.mp4?raw=true) |
+| Case 3 | [![demo3](./docs/assets/showcases/vla/3.png)](./docs/assets/showcases/vla/3.mp4?raw=true) |
 | | |
 
 </details>
