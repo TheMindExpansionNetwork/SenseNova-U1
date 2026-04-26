@@ -22,10 +22,10 @@
 
 ## 🌟 Overview
 
-🚀 **SenseNova U1** is a new series of native multimodal models that unifies multimodal understanding, reasoning, and generation within a single architecture. 
-It marks a fundamental paradigm shift in multimodal AI: **from modality integration to true unification**. Rather than relying on adapters to translate between modalities, SenseNova U1 models think and act across language and vision natively.
+🚀 **SenseNova U1** is a new series of native multimodal models that unifies multimodal understanding, reasoning, and generation within a monolithic architecture. 
+It marks a fundamental paradigm shift in multimodal AI: **from modality integration to true unification**. Rather than relying on adapters to translate between modalities, SenseNova U1 models think-and-act across language and vision natively.
 
-The unification of visual understanding and generation opens tremendous possibilities. SenseNova U1 sits in the stage of data-driven learning (like ChatGPT), yet gestures toward the next stage, that is, Agentic learning (like OpenClaw) and thinking in a natively multimodal way.
+The unification of visual understanding and generation opens tremendous possibilities. SenseNova U1 sits in the stage of **Data-driven Learning** (like ChatGPT), yet gestures toward the next stage, that is, **Agentic Learning** (like OpenClaw) and thinking in a natively multimodal way.
 
 <p align="center">
   <img src="docs/assets/teaser_1.png" alt="radar plot" width="900">
@@ -33,8 +33,7 @@ The unification of visual understanding and generation opens tremendous possibil
 
 #### 🏗️ *Key Pillars:*      
 
-At the core of SenseNova U1 is **[NEO-Unify](https://huggingface.co/blog/sensenova/neo-unify)**, a novel architecture designed from first principles for multimodal AI: language and visual information are inherently and deeply correlated. 
-NEO-Unify eliminates both Visual Encoder (VE) and Variational Auto-Encoder (VAE), replacing them with a unified representation.
+At the core of SenseNova U1 is **[NEO-Unify](https://huggingface.co/blog/sensenova/neo-unify)**, a novel architecture designed from the first principles for multimodal AI:  *It eliminates both Visual Encoder (VE) and Variational Auto-Encoder (VAE) where pixel-word information are inherently and deeply correlated.*
 
 This architecture has several important features:
 
@@ -85,9 +84,9 @@ In this release, we are open-sourcing the SenseNova U1 Lite series in two sizes:
 | SenseNova-U1-A3B-MoT-SFT | A3B MoT | 🤗 link |
 | SenseNova-U1-A3B-MoT | A3B MoT | 🤗 link |
 
-Note that the **SFT models** are trained in four stages: (1) *Understanding Warmup*, (2) *Generation Pre-training*, (3) *Unified Mid-training*, and (4) *Unified Supervised Fine-tuning*. The **final models** are obtained from the base model following an initial round of T2I reinforcement learning (RL) training.
+Notably, **SFT models** (*×32 downsampling ratio*) are trained in four stages: Understanding Warmup, Generation Pre-training, Unified Mid-training, and Unified SFT, with **final models** obtained after an initial round of T2I reinforcement learning (RL)..
 
-Although these models are relatively compact by today’s standards, they already demonstrate strong potential across a wide range of tasks, delivering performance comparable to commercial models while offering outstanding cost efficiency. That being said, We plan to release larger-scale models in future, which, we believe, can deliver stronger capabilities and higher performance.
+Although relatively compact by today’s standards, these models already show strong performance across diverse tasks, comparable to commercial models with excellent cost efficiency. Larger-scale versions are planned to further enhance capability and performance.
 
 
 ## 📣 Updated News
@@ -341,23 +340,24 @@ Although these models are relatively compact by today’s standards, they alread
 
 ## ⚠️ Ongoing Improvements
 
-While our system demonstrates strong performance across a range of tasks, several limitations remain and point to directions for further improvement:
+While showing strong performance across various tasks, several limitations remain and point to directions for further improvement:
 
 * **Visual Understanding**:   
-  The current model supports a context length of up to 32K tokens, which may constrain performance in scenarios requiring longer or more complex visual contexts.
+  The current model only supports a context length of up to **32K** tokens, which may constrain performance in scenarios requiring longer or more complex visual contexts.
 
 * **Human-centric Generation**:   
-  Fine-grained details of human bodies can be challenging, particularly when humans occupy a small portion of the scene or are involved in intricate interactions with objects.
+  Fine-grained details of human bodies can be challenging, especially when people appear as small elements within a scene or are engaged in complex interactions with surrounding objects.
 
 * **Text-based Generation**:   
-  Text rendering may occasionally contain inaccuracies, and the model can exhibit sensitivity to prompt phrasing in text-intensive scenarios.
+  Text rendering may sometimes produce misspellings, distorted characters, or formatting inconsistencies, which are sensitive to how prompts are phrased, especially in text-heavy scenarios.
 
 * **Interleaved Generation**:   
 
-  * As an experimental feature, interleaved generation is still evolving and may not yet match the performance of dedicated text-to-image (T2I) pipelines.
-  * **Beta status:** Reinforcement learning has not been specifically optimized for interleaved tasks, and current performance is comparable to supervised fine-tuning (SFT).
+  * As an experimental feature, interleaved generation is still evolving and may not yet match the performance of dedicated text-to-image (T2I) pipelines.   
 
-We view these areas as active directions for ongoing development and expect continued improvements in future iterations.
+  * **Beta status:** RL has not been specifically optimized for visual editing, reasoning, and interleaved tasks, and current performance is comparable SFT models.
+
+We view these areas as active directions and expect continued improvements in future iterations.
 
 
 ## 🛠️ Quick Start
