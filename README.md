@@ -324,7 +324,7 @@ Although these models are relatively compact by today’s standards, they alread
 </details>
 
 <details>
-<summary>♻️ Interleaved Generation</summary>
+<summary>♻️ Visual Reasoning</summary>
 
 <p align="center">
   <img src="docs/assets/benchmarks/interleaved.webp" alt="Interleaved Benchmarks">
