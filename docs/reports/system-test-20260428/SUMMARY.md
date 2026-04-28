@@ -4,12 +4,15 @@
 
 SenseNova-U1 is now deployed as a Jimsky Modal CPU web shell and backend jobs app. The bounded system test passed for deployment, HTTP health, dry-run API, repo/HF metadata readiness, and GPU dependency visibility.
 
-## Live endpoints
+## Live endpoints and review surfaces
 
+- Public review page: `https://themindexpansionnetwork.github.io/SenseNova-U1/`
+- Full system-test page: `https://themindexpansionnetwork.github.io/SenseNova-U1/system-test-20260428.html`
 - Web health: `https://m1ndb0t-2045--jimsky-sensenova-u1-api.modal.run/health`
 - Web dry-run: `https://m1ndb0t-2045--jimsky-sensenova-u1-api.modal.run/v1/dry-run`
 - Modal web app: `jimsky-sensenova-u1`
 - Modal jobs app: `jimsky-sensenova-u1-jobs`
+- GitHub Pages workflow run: `https://github.com/TheMindExpansionNetwork/SenseNova-U1/actions/runs/25064747353`
 
 ## Results
 
