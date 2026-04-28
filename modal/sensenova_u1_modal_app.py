@@ -121,7 +121,7 @@ def gpu_dependency_probe() -> str:
     return json.dumps(payload)
 
 
-@app.function(image=base_image, cpu=0.25, memory=512, timeout=180)
+@app.function(image=base_image, cpu=0.25, memory=512, timeout=180, scaledown_window=60)
 @modal.asgi_app()
 def api():
     from fastapi import Body, FastAPI

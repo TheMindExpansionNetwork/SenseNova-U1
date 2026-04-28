@@ -1,0 +1,50 @@
+[
+  {
+    "App ID": "ap-3sqrVcalk4z0rnYTjZjsuW",
+    "Description": "jimsky-sensenova-u1-jobs",
+    "State": "deployed",
+    "Tasks": "0",
+    "Created at": "2026-04-28 15:56:02+00:00",
+    "Stopped at": null
+  },
+  {
+    "App ID": "ap-NkvtZEgWaG7dOEbmbYbodW",
+    "Description": "jimsky-sensenova-u1",
+    "State": "deployed",
+    "Tasks": "1",
+    "Created at": "2026-04-28 16:02:51+00:00",
+    "Stopped at": null
+  },
+  {
+    "App ID": "ap-1atm6TpyRh2fThGhuSEMY9",
+    "Description": "jimsky-sensenova-u1-jobs",
+    "State": "stopped",
+    "Tasks": "0",
+    "Created at": "2026-04-28 16:04:34+00:00",
+    "Stopped at": "2026-04-28 16:05:17+00:00"
+  },
+  {
+    "App ID": "ap-6hXvIcKnc1D3hRk7g2Zxpc",
+    "Description": "jimsky-sensenova-u1-jobs",
+    "State": "stopped",
+    "Tasks": "0",
+    "Created at": "2026-04-28 15:55:35+00:00",
+    "Stopped at": "2026-04-28 15:56:01+00:00"
+  },
+  {
+    "App ID": "ap-53OMMFUaGLxheaokvDbqdy",
+    "Description": "jimsky-sensenova-u1",
+    "State": "stopped",
+    "Tasks": "0",
+    "Created at": "2026-04-28 15:54:35+00:00",
+    "Stopped at": "2026-04-28 15:54:38+00:00"
+  },
+  {
+    "App ID": "ap-DiAYL5WrduK7fs7iZaWqtq",
+    "Description": "jimsky-sensenova-u1",
+    "State": "stopped",
+    "Tasks": "0",
+    "Created at": "2026-04-28 15:52:23+00:00",
+    "Stopped at": "2026-04-28 15:54:25+00:00"
+  }
+]

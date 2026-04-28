@@ -1,0 +1,10 @@
+{
+  "ok": true,
+  "dry_run": true,
+  "received_keys": [
+    "dry_run",
+    "mode",
+    "prompt"
+  ],
+  "message": "SenseNova-U1 Modal shell is wired. Real GPU/model inference is intentionally gated."
+}

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jimsky SenseNova-U1 System Test · 2026-04-28</title>
+  <style>
+    :root { color-scheme: dark; --bg:#070913; --panel:#11172b; --ink:#eaf6ff; --muted:#9eb1d5; --hot:#ff3df2; --cyan:#3df6ff; --ok:#36ff9a; --warn:#ffd166; }
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top left,#25135a,transparent 35%),radial-gradient(circle at 80% 0,#043945,transparent 30%),var(--bg);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}
+    main{max-width:1180px;margin:0 auto;padding:42px 20px 72px}.hero{border:1px solid #2b3869;background:linear-gradient(135deg,rgba(17,23,43,.94),rgba(17,23,43,.72));box-shadow:0 0 80px rgba(61,246,255,.13);border-radius:28px;padding:34px}.eyebrow{color:var(--cyan);letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;font-weight:800}h1{font-size:clamp(2.1rem,6vw,5rem);line-height:.95;margin:.25em 0;background:linear-gradient(90deg,var(--cyan),#fff,var(--hot));-webkit-background-clip:text;color:transparent}h2{margin-top:34px;color:#fff}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:16px}.card{background:rgba(17,23,43,.82);border:1px solid #2b3869;border-radius:20px;padding:18px}.status{display:inline-flex;gap:8px;align-items:center;border:1px solid #315064;border-radius:999px;padding:6px 10px;background:#0a1420;color:var(--ok);font-weight:800}.warn{color:var(--warn)}code,pre{background:#050813;border:1px solid #26345f;border-radius:12px}code{padding:2px 6px}pre{padding:14px;overflow:auto;color:#cfe9ff}.links a{color:var(--cyan)}.pill{display:inline-block;margin:4px 6px 4px 0;padding:6px 10px;border-radius:999px;background:#181f3b;border:1px solid #324374;color:#d9e8ff}.footer{color:var(--muted);margin-top:32px}</style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="eyebrow">Jimsky / MindBotz framework intake · Modal readiness surface</div>
+    <h1>SenseNova-U1 System Test</h1>
+    <p>OpenSenseNova's unified multimodal framework is now forked into TheMindExpansionNetwork, deployed to Modal as a safe CPU shell + backend jobs app, and staged for the next GPU inference gate.</p>
+    <p><span class="status">PASS · deployed + tested</span> <span class="pill">No model weights downloaded</span><span class="pill">GPU dependency probe passed</span><span class="pill">Tasks verified</span></p>
+  </section>
+
+  <h2>Live / repo links</h2>
+  <div class="grid links">
+    <div class="card"><strong>Fork repo</strong><br><a href="https://github.com/TheMindExpansionNetwork/SenseNova-U1">TheMindExpansionNetwork/SenseNova-U1</a></div>
+    <div class="card"><strong>Modal web shell</strong><br><a href="https://m1ndb0t-2045--jimsky-sensenova-u1-api.modal.run/health">/health endpoint</a></div>
+    <div class="card"><strong>Modal deployment</strong><br><a href="https://modal.com/apps/m1ndb0t-2045/main/deployed/jimsky-sensenova-u1">jimsky-sensenova-u1</a></div>
+    <div class="card"><strong>Backend jobs app</strong><br><a href="https://modal.com/apps/m1ndb0t-2045/main/deployed/jimsky-sensenova-u1-jobs">jimsky-sensenova-u1-jobs</a></div>
+  </div>
+
+  <h2>System test results</h2>
+  <div class="grid">
+    <div class="card"><h3>Health API</h3><p><span class="status">PASS</span></p><p>CPU FastAPI shell responded from Modal and parsed repo metadata.</p></div>
+    <div class="card"><h3>Dry-run API</h3><p><span class="status">PASS</span></p><p><code>/v1/dry-run</code> accepted JSON and returned the gated-no-GPU message.</p></div>
+    <div class="card"><h3>Jobs readiness</h3><p><span class="status">PASS</span></p><p>No-web jobs wrapper confirmed docs, package metadata, and Hugging Face model visibility.</p></div>
+    <div class="card"><h3>GPU dependency probe</h3><p><span class="status">PASS</span></p><p>L4 visible: <code>NVIDIA L4, 23034 MiB, driver 580.95.05</code>. No inference run.</p></div>
+  </div>
+
+  <h2>Capability map</h2>
+  <div class="grid">
+    <div class="card"><h3>Text → Image</h3><p>Repo examples support T2I with optional reasoning / think mode and high-res buckets.</p></div>
+    <div class="card"><h3>Image editing</h3><p>Repo examples support image-conditioned editing with offline resize guidance.</p></div>
+    <div class="card"><h3>Interleaved output</h3><p>Can emit text plus generated images in a single flow.</p></div>
+    <div class="card"><h3>Visual understanding / VQA</h3><p>Best first real inference smoke test before generation.</p></div>
+    <div class="card"><h3>LightLLM + LightX2V</h3><p>Upstream deployment path exists for production serving; Modal should stage this after Transformers smoke tests.</p></div>
+    <div class="card"><h3>Master hub formula</h3><p>Recommended as one spoke in the MindBotz model hub: CPU shell, job app, cache volume, gated GPU worker, evaluation report.</p></div>
+  </div>
+
+  <h2>Current safety gates</h2>
+  <pre>No full SenseNova-U1 model download yet.
+No real VQA/image generation yet.
+No public route starts GPU inference.
+Next approved step: cache SFT weights and run one tiny VQA smoke test.</pre>
+
+  <h2>Artifacts committed</h2>
+  <pre>AGENTS.md
+docs/JIMSKY_MODAL_SETUP.md
+docs/reports/JIMSKY_MODAL_SETUP_REPORT.md
+docs/reports/system-test-20260428/*
+modal/sensenova_u1_modal_app.py
+modal/sensenova_u1_modal_jobs.py</pre>
+
+  <p class="footer">Built for Jimsky / The Mind Expansion Network. This page is a review surface for framework intake, not a public production claim.</p>
+</main>
+</body>
+</html>

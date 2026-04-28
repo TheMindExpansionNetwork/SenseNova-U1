@@ -1,0 +1,23 @@
+[
+  {
+    "Object ID": "ap-NkvtZEgWaG7dOEbmbYbodW",
+    "Description": "jimsky-sensenova-u1",
+    "Environment": "main",
+    "Interval Start": "2026-04-28T00:00:00",
+    "Cost": "0.00022430"
+  },
+  {
+    "Object ID": "ap-6hXvIcKnc1D3hRk7g2Zxpc",
+    "Description": "jimsky-sensenova-u1-jobs",
+    "Environment": "main",
+    "Interval Start": "2026-04-28T00:00:00",
+    "Cost": "0.00003184"
+  },
+  {
+    "Object ID": "ap-DiAYL5WrduK7fs7iZaWqtq",
+    "Description": "jimsky-sensenova-u1",
+    "Environment": "main",
+    "Interval Start": "2026-04-28T00:00:00",
+    "Cost": "0.00043961"
+  }
+]
